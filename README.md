@@ -2,13 +2,13 @@
 
 Parse atomic indicators of compromise from any plain text source. 
 
-<p>
+<p align="center">
     <img src="images/cheddar-goblin.gif" alt="Cheddar Goblin"/>
 <p>
 
 ## The GUI
 
-<p>
+<p aligh="center">
     <img src="images/gui.png" alt="Goblin GUI">
 </p>
 
