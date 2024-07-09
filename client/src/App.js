@@ -4,6 +4,8 @@ import EditorBody from "./components/EditorBody";
 import { CContainer, CAlert } from "@coreui/react";
 import { EditorView } from "@codemirror/view";
 import { langs } from "@uiw/codemirror-extensions-langs";
+import { extractIOC } from "ioc-extractor";
+import xss from "xss";
 
 function jsonToCsv(json) {
   let csv = "type,value\n";
@@ -110,31 +112,17 @@ export default function App() {
   };
 
   const getParsedIOCs = () => {
-    const iocText = leftValue;
-    const options = {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ iocs: iocText }),
-    };
+    const iocText = xss(leftValue);
+    const iocs = extractIOC(iocText);
+    let filteredIOCs = {};
 
-    fetch("parse", options)
-      .then((response) => {
-        if (response.status === 413) {
-          showAlert("danger");
-        }
-        if (!response.ok) {
-          throw new Error("Response was not ok");
-        }
-        return response.json();
-      })
-      .then((data) => {
-        formatData(data);
-      })
-      .catch((error) =>
-        console.error("There was a problem fetching parsed IOC data:", error)
-      );
+    Object.keys(iocs).forEach((key) => {
+      if (iocs[key].length > 0) {
+        filteredIOCs[key] = iocs[key];
+      }
+    });
+
+    formatData(filteredIOCs);
   };
 
   const formatData = (data) => {

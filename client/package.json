@@ -1,7 +1,6 @@
 {
   "name": "client",
   "version": "0.1.0",
-  "proxy": "http://localhost:8443",
   "private": true,
   "dependencies": {
     "@codemirror/lang-json": "^6.0.1",
@@ -18,10 +17,12 @@
     "@uiw/codemirror-theme-tokyo-night": "^4.22.2",
     "@uiw/codemirror-themes": "^4.22.2",
     "@uiw/react-codemirror": "^4.22.2",
+    "ioc-extractor": "^8.0.4",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-scripts": "5.0.1",
-    "web-vitals": "^2.1.4"
+    "web-vitals": "^2.1.4",
+    "xss": "^1.0.15"
   },
   "scripts": {
     "start": "react-scripts start",
