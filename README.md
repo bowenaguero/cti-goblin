@@ -8,7 +8,7 @@ Parse atomic indicators of compromise from any plain text source.
 
 ## The GUI
 
-<p aligh="center">
+<p align="center">
     <img src="images/gui.png" alt="Goblin GUI">
 </p>
 
