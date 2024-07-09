@@ -92,7 +92,7 @@ export default function EditorTopBar({
   return (
     <>
       <CContainer>
-        <CRow className="pt-2 pb-2 align-items-center border-top border-bottom">
+        <CRow className="pt-2 pb-2 align-items-center border-bottom">
           <CCol className="col-4 d-flex px-2">
             <CTooltip content="Copy" placement="bottom">
               <CButton onClick={() => onClickCopy("left")}>

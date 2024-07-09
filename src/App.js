@@ -74,6 +74,41 @@ export default function App() {
     }
   }, []);
 
+  const formatData = useCallback((data) => {
+    if (Object.keys(data).length === 0) {
+      setParsedData({ json: "🥲", csv: "🥲", txt: "🥲" });
+      return;
+    }
+
+    let json = data;
+    let csv = jsonToCsv(data);
+    let text = jsonToText(data);
+
+    setParsedData({ json: json, csv: csv, txt: text });
+  }, []);
+
+  const writeParsedData = useCallback((data) => {
+    switch (editorMode) {
+      case "json":
+        setRightValue(JSON.stringify(data["json"], null, 2));
+        break;
+      case "csv":
+        setRightValue(data["csv"]);
+        break;
+      case "txt":
+        setRightValue(data["txt"]);
+        break;
+      default:
+        break;
+    }
+  }, [editorMode]);
+
+  useEffect(() => {
+    if (parsedData !== undefined) {
+      writeParsedData(parsedData);
+    }
+  }, [parsedData, editorMode, writeParsedData]);
+
   const showAlert = useCallback((type) => {
     switch (type) {
       case "success":
@@ -124,42 +159,7 @@ export default function App() {
     });
 
     formatData(filteredIOCs);
-  }, [leftValue]);
-
-  const formatData = useCallback((data) => {
-    if (Object.keys(data).length === 0) {
-      setParsedData({ json: "🥲", csv: "🥲", txt: "🥲" });
-      return;
-    }
-
-    let json = data;
-    let csv = jsonToCsv(data);
-    let text = jsonToText(data);
-
-    setParsedData({ json: json, csv: csv, txt: text });
-  }, []);
-
-  const writeParsedData = useCallback((data) => {
-    switch (editorMode) {
-      case "json":
-        setRightValue(JSON.stringify(data["json"], null, 2));
-        break;
-      case "csv":
-        setRightValue(data["csv"]);
-        break;
-      case "txt":
-        setRightValue(data["txt"]);
-        break;
-      default:
-        break;
-    }
-  }, [editorMode]);
-
-  useEffect(() => {
-    if (parsedData !== undefined) {
-      writeParsedData(parsedData);
-    }
-  }, [parsedData, editorMode, writeParsedData]);
+  }, [leftValue, formatData]);
 
   return (
     <>
