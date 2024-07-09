@@ -49,7 +49,7 @@ export default function App() {
   const [editorMode, setEditorMode] = useState("json");
   const [parsedData, setParsedData] = useState(undefined);
 
-  function changeCodeFormat(format) {
+  const changeCodeFormat = useCallback((format) => {
     switch (format) {
       case "json":
         setEditorMode("json");
@@ -72,9 +72,9 @@ export default function App() {
         console.log("Editor format changed to json");
         break;
     }
-  }
+  }, []);
 
-  const showAlert = (type) => {
+  const showAlert = useCallback((type) => {
     switch (type) {
       case "success":
         setIsSuccessAlertVisible(true);
@@ -92,7 +92,8 @@ export default function App() {
         break;
       default:
     }
-  };
+  }, []);
+
 
   const onChangeLeft = useCallback((val) => {
     setLeftValue(val);
@@ -102,16 +103,16 @@ export default function App() {
     setRightValue(val);
   }, []);
 
-  const onClickCopy = (direction) => {
+  const onClickCopy = useCallback((direction) => {
     if (direction === "left") {
       navigator.clipboard.writeText(leftValue);
     } else if (direction === "right") {
       navigator.clipboard.writeText(rightValue);
     }
     showAlert("success");
-  };
+  }, [leftValue, rightValue, showAlert]);
 
-  const getParsedIOCs = () => {
+  const getParsedIOCs = useCallback(() => {
     const iocText = xss(leftValue);
     const iocs = extractIOC(iocText);
     let filteredIOCs = {};
@@ -123,9 +124,9 @@ export default function App() {
     });
 
     formatData(filteredIOCs);
-  };
+  }, [leftValue]);
 
-  const formatData = (data) => {
+  const formatData = useCallback((data) => {
     if (Object.keys(data).length === 0) {
       setParsedData({ json: "🥲", csv: "🥲", txt: "🥲" });
       return;
@@ -136,7 +137,7 @@ export default function App() {
     let text = jsonToText(data);
 
     setParsedData({ json: json, csv: csv, txt: text });
-  };
+  }, []);
 
   const writeParsedData = useCallback((data) => {
     switch (editorMode) {
