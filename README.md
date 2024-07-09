@@ -1,10 +1,10 @@
 # CTI Goblin
 
-Parse atomic indicators of compromise from any plain text source. 
-
 <p align="center">
     <img src="images/cheddar-goblin.gif" alt="Cheddar Goblin"/>
 <p>
+
+Parse atomic indicators of compromise from any plain text source. 
 
 ## The GUI
 
