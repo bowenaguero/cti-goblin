@@ -4,4 +4,4 @@
 *.pnp.js
 
 # testing
-/server
+server/*
