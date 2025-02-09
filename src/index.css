@@ -14,10 +14,6 @@ body {
   background-size: cover;
 }
 
-.select {
-  color: var(--cui-blue);
-}
-
 .cm-editor.cm-focused {
   outline:none
 }

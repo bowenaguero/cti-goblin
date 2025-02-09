@@ -5,37 +5,9 @@ import { CContainer, CAlert } from "@coreui/react";
 import { EditorView } from "@codemirror/view";
 import { langs } from "@uiw/codemirror-extensions-langs";
 import { extractIOC } from "ioc-extractor";
+import { toXML } from "jstoxml";
+import { jsonToCsv, jsonToText } from "./helpers/fromJson.js"
 import xss from "xss";
-
-function jsonToCsv(json) {
-  let csv = "type,value\n";
-
-  for (const key in json) {
-    if (json.hasOwnProperty(key)) {
-      const values = json[key];
-
-      values.forEach((value) => {
-        csv += `${key},${value}\n`;
-      });
-    }
-  }
-
-  return csv;
-}
-
-function jsonToText(json) {
-  let text = "";
-
-  Object.keys(json).forEach((key) => {
-    if (json[key].length > 0) {
-      json[key].forEach((entry) => {
-        text += `${entry}\n`;
-      });
-    }
-  });
-
-  return text;
-}
 
 export default function App() {
   const [leftValue, setLeftValue] = useState(undefined);
@@ -53,50 +25,52 @@ export default function App() {
     switch (format) {
       case "json":
         setEditorMode("json");
-        setExtensions([EditorView.lineWrapping, langs.json()]);
-        console.log("Editor format changed to json");
+        break;
+      case "xml":
+        setEditorMode("xml");
         break;
       case "csv":
         setEditorMode("csv");
-        setExtensions([EditorView.lineWrapping, langs.mathematica()]);
-        console.log("Editor format changed to csv");
         break;
       case "txt":
         setEditorMode("txt");
-        setExtensions([EditorView.lineWrapping]);
-        console.log("Editor format changed to txt");
         break;
       default:
-        setEditorMode("json");
-        setExtensions([EditorView.lineWrapping]);
-        console.log("Editor format changed to json");
         break;
     }
   }, []);
 
   const formatData = useCallback((data) => {
     if (Object.keys(data).length === 0) {
-      setParsedData({ json: "🥲", csv: "🥲", txt: "🥲" });
+      setParsedData({ json: "🥲", csv: "🥲", txt: "🥲", xml:"🥲" });
       return;
     }
 
     let json = data;
     let csv = jsonToCsv(data);
     let text = jsonToText(data);
+    let xml = toXML(data, {header:false, indent : "   "}).trim();
 
-    setParsedData({ json: json, csv: csv, txt: text });
+    setParsedData({ json: json, csv: csv, txt: text, xml: xml });
   }, []);
 
   const writeParsedData = useCallback((data) => {
     switch (editorMode) {
       case "json":
         setRightValue(JSON.stringify(data["json"], null, 2));
+        setExtensions([EditorView.lineWrapping, langs.json()]);
+        break;
+      case "xml":
+        setRightValue(data["xml"]);
+        setExtensions([EditorView.lineWrapping, langs.xml()]);
         break;
       case "csv":
         setRightValue(data["csv"]);
+        setExtensions([EditorView.lineWrapping]);
         break;
       case "txt":
         setRightValue(data["txt"]);
+        setExtensions([EditorView.lineWrapping]);
         break;
       default:
         break;

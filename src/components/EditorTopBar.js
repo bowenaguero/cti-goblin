@@ -1,4 +1,4 @@
-import { useState, useRef } from "react";
+import { useRef } from "react";
 import { CContainer } from "@coreui/react";
 import { CCol } from "@coreui/react";
 import { CRow } from "@coreui/react";
@@ -24,24 +24,6 @@ export default function EditorTopBar({
   onClickCopy,
   parseIOCs,
 }) {
-  const handleRadioChange = (event) => {
-    const value = event.target.id;
-
-    switch (value) {
-      case "btnradiocsv":
-        changeCodeFormat("csv");
-        break;
-      case "btnradiojson":
-        changeCodeFormat("json");
-        break;
-      case "btnradiotext":
-        changeCodeFormat("txt");
-        break;
-      default:
-        break;
-    }
-  };
-
   const inputFile = useRef(null);
 
   const handleClick = () => {
@@ -151,8 +133,18 @@ export default function EditorTopBar({
                 id="btnradiojson"
                 autoComplete="off"
                 label="JSON"
-                onChange={handleRadioChange}
+                onChange={() => changeCodeFormat("json")}
                 checked={editorMode === "json"}
+              />
+              <CFormCheck
+                type="radio"
+                button={{ color: "primary", variant: "outline" }}
+                name="btnradio"
+                id="btnradioxml"
+                autoComplete="off"
+                label="XML"
+                onChange={() => changeCodeFormat("xml")}
+                checked={editorMode === "xml"}
               />
               <CFormCheck
                 type="radio"
@@ -161,7 +153,7 @@ export default function EditorTopBar({
                 id="btnradiocsv"
                 autoComplete="off"
                 label="CSV"
-                onChange={handleRadioChange}
+                onChange={() => changeCodeFormat("csv")}
                 checked={editorMode === "csv"}
               />
               <CFormCheck
@@ -171,7 +163,7 @@ export default function EditorTopBar({
                 id="btnradiotext"
                 autoComplete="off"
                 label="TEXT"
-                onChange={handleRadioChange}
+                onChange={() => changeCodeFormat("txt")}
                 checked={editorMode === "txt"}
               />
             </CButtonGroup>

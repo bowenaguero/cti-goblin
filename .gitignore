@@ -5,6 +5,7 @@ node_modules/
 
 # testing
 server/
+testing/
 
 # production
 build/

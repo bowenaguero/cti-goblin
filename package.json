@@ -18,6 +18,7 @@
     "@uiw/codemirror-themes": "^4.22.2",
     "@uiw/react-codemirror": "^4.22.2",
     "ioc-extractor": "^8.0.4",
+    "jstoxml": "^5.0.2",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-scripts": "5.0.1",
